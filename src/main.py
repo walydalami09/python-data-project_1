@@ -1,22 +1,5 @@
 import csv
 
-
-def  load_measurements(file_path : str) : 
-    with open(file_path, mode="r", encoding="utf-8") as file:
-        reader = csv.DictReader(file)
-        list_measure_valid = []
-        list_measure_non_valid = []
-        for measurement in reader:
-            try :
-                measurement["temperature"] = float(measurement["temperature"])
-                list_measure_valid.append(measurement)
-            except ValueError:
-                list_measure_non_valid.append(measurement)
-    return list_measure_valid,list_measure_non_valid
-
-
- 
-
 """
 measurements = [
     {
@@ -56,6 +39,19 @@ measurements = [
     }
 ]
 """
+
+def  load_measurements(file_path : str) : 
+    with open(file_path, mode="r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        list_measure_valid = []
+        list_measure_non_valid = []
+        for measurement in reader:
+            try :
+                measurement["temperature"] = float(measurement["temperature"])
+                list_measure_valid.append(measurement)
+            except ValueError:
+                list_measure_non_valid.append(measurement)
+    return list_measure_valid,list_measure_non_valid
 
 def count_equipment_by_site (measurements : list[dict]) -> dict : 
     nb_equipement_site = {}
@@ -98,5 +94,6 @@ report = generate_equipment_report(
     measurements,
     {"ERROR", "WARNING"}
 )
+
 print (report)
 print("Mesures valides :", len(measurements))
